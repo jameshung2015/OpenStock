@@ -324,6 +324,62 @@ export const POPULAR_STOCK_SYMBOLS = [
     'SE',
 ];
 
+// Popular Chinese Stock Symbols (A-shares)
+// Using Tushare format: ts_code (e.g., '000001.SZ' for Shenzhen, '600000.SH' for Shanghai)
+export const POPULAR_CHINESE_STOCK_SYMBOLS = [
+    // Major Financial Institutions
+    '601398.SH', // 工商银行 (ICBC)
+    '601939.SH', // 建设银行 (China Construction Bank)
+    '601288.SH', // 农业银行 (Agricultural Bank of China)
+    '601988.SH', // 中国银行 (Bank of China)
+    '600036.SH', // 招商银行 (China Merchants Bank)
+    '601318.SH', // 中国平安 (Ping An Insurance)
+
+    // Energy & Resources
+    '600028.SH', // 中国石化 (Sinopec)
+    '601857.SH', // 中国石油 (PetroChina)
+    '601088.SH', // 中国神华 (China Shenhua Energy)
+    '600019.SH', // 宝钢股份 (Baoshan Iron & Steel)
+
+    // Technology & Manufacturing
+    '600519.SH', // 贵州茅台 (Kweichow Moutai)
+    '000858.SZ', // 五粮液 (Wuliangye)
+    '000333.SZ', // 美的集团 (Midea Group)
+    '000651.SZ', // 格力电器 (Gree Electric)
+    '002415.SZ', // 海康威视 (Hikvision)
+    '002594.SZ', // 比亚迪 (BYD)
+
+    // Real Estate & Infrastructure
+    '000002.SZ', // 万科A (China Vanke)
+    '600048.SH', // 保利地产 (Poly Real Estate)
+    '601669.SH', // 中国电建 (PowerChina)
+    '601186.SH', // 中国铁建 (China Railway Construction)
+
+    // Consumer & Retail
+    '002714.SZ', // 牧原股份 (Muyuan Foods)
+    '000568.SZ', // 泸州老窖 (Luzhou Laojiao)
+    '002304.SZ', // 洋河股份 (Yanghe Brewery)
+    '603288.SH', // 海天味业 (Foshan Haitian)
+
+    // Telecommunications & Media
+    '600050.SH', // 中国联通 (China Unicom)
+    '600900.SH', // 中国传媒 (China Central Television)
+    '000063.SZ', // 中兴通讯 (ZTE Corporation)
+
+    // Healthcare & Pharmaceuticals
+    '600276.SH', // 恒瑞医药 (Hengrui Medicine)
+    '000538.SZ', // 云南白药 (Yunnan Baiyao)
+    '300760.SZ', // 迈瑞医疗 (Mindray Medical)
+
+    // New Energy & Electric Vehicles
+    '300750.SZ', // 宁德时代 (CATL)
+    '002460.SZ', // 赣锋锂业 (Ganfeng Lithium)
+
+    // Internet & E-commerce (A-share listings)
+    '002027.SZ', // 分众传媒 (Focus Media)
+    '002230.SZ', // 科大讯飞 (iFlytek)
+];
+
 export const NO_MARKET_NEWS =
     '<p class="mobile-text" style="margin:0 0 20px 0;font-size:16px;line-height:1.6;color:#4b5563;">No market news available today. Please check back tomorrow.</p>';
 

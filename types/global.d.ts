@@ -215,6 +215,67 @@ declare global {
         threshold: number;
         changePercent?: number;
     };
+
+    // Tushare API Types
+    type TushareResponse = {
+        code: number;
+        msg: string | null;
+        data: {
+            fields: string[];
+            items: any[][];
+        };
+    };
+
+    type TushareStockBasic = {
+        ts_code: string; // Stock code with exchange (e.g., '000001.SZ')
+        symbol: string; // Stock code without exchange (e.g., '000001')
+        name: string; // Stock name in Chinese
+        area: string; // Region/Province
+        industry: string; // Industry
+        market: string; // Market (主板/中小板/创业板)
+        list_date: string; // Listing date (YYYYMMDD)
+        list_status?: string; // Listing status (L: Listed, D: Delisted, P: Paused)
+        is_hs?: string; // Is in HS connect (H: HK to SH, S: HK to SZ)
+    };
+
+    type TushareQuoteData = {
+        close: number; // Closing price
+        pct_chg: number; // Percentage change
+        vol?: number; // Volume (in lots of 100 shares)
+        amount?: number; // Trading amount (in thousands)
+    };
+
+    type TushareCompanyInfo = {
+        ts_code: string;
+        chairman?: string; // Chairman
+        manager?: string; // General Manager
+        secretary?: string; // Secretary
+        reg_capital?: number; // Registered capital
+        setup_date?: string; // Establishment date
+        province?: string; // Province
+        city?: string; // City
+        introduction?: string; // Company introduction
+        website?: string; // Company website
+        email?: string; // Contact email
+        office?: string; // Office address
+        employees?: number; // Number of employees
+        main_business?: string; // Main business
+        business_scope?: string; // Business scope
+    };
+
+    type TushareDailyData = {
+        ts_code: string;
+        trade_date: string; // Trading date (YYYYMMDD)
+        open: number; // Opening price
+        high: number; // Highest price
+        low: number; // Lowest price
+        close: number; // Closing price
+        pre_close: number; // Previous close
+        change: number; // Price change
+        pct_chg: number; // Percentage change
+        vol: number; // Volume
+        amount: number; // Trading amount
+    };
 }
 
 export {};
