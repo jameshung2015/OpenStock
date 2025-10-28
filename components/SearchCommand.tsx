@@ -5,7 +5,7 @@ import { CommandDialog, CommandEmpty, CommandInput, CommandList } from "@/compon
 import {Button} from "@/components/ui/button";
 import {Loader2,  TrendingUp} from "lucide-react";
 import Link from "next/link";
-import {searchStocks} from "@/lib/actions/finnhub.actions";
+import {searchAllMarkets} from "@/lib/actions/unified-search.actions";
 import {useDebounce} from "@/hooks/useDebounce";
 
 export default function SearchCommand({ renderAs = 'button', label = 'Add stock', initialStocks }: SearchCommandProps) {
@@ -33,7 +33,7 @@ export default function SearchCommand({ renderAs = 'button', label = 'Add stock'
 
         setLoading(true)
         try {
-            const results = await searchStocks(searchTerm.trim());
+            const results = await searchAllMarkets(searchTerm.trim());
             setStocks(results);
         } catch {
             setStocks([])

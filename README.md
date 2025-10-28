@@ -118,6 +118,38 @@ Language composition
     - Dark theme by default
 - Keyboard shortcut
     - Cmd/Ctrl + K for quick actions/search
+- Chinese Market Support 🆕
+    - Access to Chinese A-share stocks (Shanghai, Shenzhen, Beijing exchanges)
+    - Real-time quotes and historical data for Chinese stocks
+    - Seamless integration with watchlist and search features
+    - Popular Chinese stocks readily available
+
+## 🌏 Chinese Market Data (Tushare Integration)
+
+OpenStock now supports Chinese market data through Tushare Pro API integration. This feature enables you to:
+
+- **Search Chinese Stocks**: Search by stock code (e.g., 600519.SH) or company name
+- **Multi-Market Search**: Unified search across both US and Chinese markets
+- **Real-time Quotes**: Get current prices and percentage changes
+- **Company Information**: Access detailed company profiles and business information
+- **Historical Data**: Retrieve historical price data for analysis
+- **Popular Stocks**: Quick access to major Chinese stocks like ICBC, Moutai, BYD, CATL, and more
+
+### Setting Up Tushare
+
+1. Register for free at [https://tushare.pro](https://tushare.pro)
+2. Get your API token from your account dashboard
+3. Add `TUSHARE_TOKEN=your_token_here` to your `.env` file
+4. Restart your development server
+
+Once configured, Chinese stocks will automatically appear in search results alongside US stocks.
+
+### Stock Symbol Format
+
+Chinese stocks use the Tushare format:
+- Shanghai Stock Exchange: `XXXXXX.SH` (e.g., `600519.SH` for Kweichow Moutai)
+- Shenzhen Stock Exchange: `XXXXXX.SZ` (e.g., `000002.SZ` for China Vanke)
+- Beijing Stock Exchange: `XXXXXX.BJ`
 
 ## 🤸 Quick Start
 
@@ -125,6 +157,7 @@ Prerequisites
 - Node.js 20+ and pnpm or npm
 - MongoDB connection string (MongoDB Atlas or local via Docker Compose)
 - Finnhub API key (free tier supported; real-time may require paid)
+- Tushare Pro token (optional, for Chinese market data - get free at https://tushare.pro)
 - Gmail account for email (or update Nodemailer transport)
 - Optional: Google Gemini API key (for AI-generated welcome intros)
 
@@ -240,11 +273,15 @@ MONGODB_URI=mongodb+srv://<user>:<pass>@<cluster>/<db>?retryWrites=true&w=majori
 BETTER_AUTH_SECRET=your_better_auth_secret
 BETTER_AUTH_URL=http://localhost:3000
 
-# Finnhub
+# Finnhub (US Market Data)
 FINNHUB_API_KEY=your_finnhub_key
 # Optional client-exposed variant if needed by client code:
 NEXT_PUBLIC_FINNHUB_API_KEY=
 FINNHUB_BASE_URL=https://finnhub.io/api/v1
+
+# Tushare Pro (Chinese Market Data) - Optional
+# Get your free token at https://tushare.pro
+TUSHARE_TOKEN=your_tushare_token
 
 # Inngest AI (Gemini)
 GEMINI_API_KEY=your_gemini_api_key
@@ -266,10 +303,14 @@ MONGODB_URI=mongodb://root:example@mongodb:27017/openstock?authSource=admin
 BETTER_AUTH_SECRET=your_better_auth_secret
 BETTER_AUTH_URL=http://localhost:3000
 
-# Finnhub
+# Finnhub (US Market Data)
 FINNHUB_API_KEY=your_finnhub_key
 NEXT_PUBLIC_FINNHUB_API_KEY=
 FINNHUB_BASE_URL=https://finnhub.io/api/v1
+
+# Tushare Pro (Chinese Market Data) - Optional
+# Get your free token at https://tushare.pro
+TUSHARE_TOKEN=your_tushare_token
 
 # Inngest AI (Gemini)
 GEMINI_API_KEY=your_gemini_api_key
@@ -327,9 +368,17 @@ public/assets/images/   # logos and screenshots
 ## 📡 Data & Integrations
 
 - Finnhub
-    - Stock search, company profiles, and market news.
+    - Stock search, company profiles, and market news for US markets.
     - Set `FINNHUB_API_KEY` and `FINNHUB_BASE_URL` (default: https://finnhub.io/api/v1).
     - Free tiers may return delayed quotes; respect rate limits and terms.
+
+- Tushare Pro (Chinese Market Data) 🆕
+    - Real-time Chinese stock data (A-shares: Shanghai, Shenzhen, Beijing exchanges).
+    - Stock search, company information, historical data, and quotes.
+    - Set `TUSHARE_TOKEN` to enable Chinese market integration.
+    - Get your free token at [https://tushare.pro](https://tushare.pro) by registering.
+    - Supports both simplified searches and detailed company analysis.
+    - Popular Chinese stocks include: ICBC (601398.SH), Kweichow Moutai (600519.SH), BYD (002594.SZ), CATL (300750.SZ), and more.
 
 - TradingView
     - Embeddable widgets used for charts, heatmap, quotes, and timelines.
