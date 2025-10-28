@@ -2,8 +2,6 @@ services:
   openstock:
     build:
       context: .
-      extra_hosts:
-        - "mongodb:host-gateway"
     ports:
       - "3000:3000"
     env_file:
@@ -11,6 +9,10 @@ services:
     restart: unless-stopped
     depends_on:
       - mongodb
+    # Allow container to access MongoDB and Ollama (Windows host)
+    extra_hosts:
+      - "mongodb:host-gateway"
+      - "host.docker.internal:host-gateway"
 
   mongodb:
     image: mongo:7

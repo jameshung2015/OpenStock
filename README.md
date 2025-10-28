@@ -86,7 +86,7 @@ Auth & Data
 - TradingView embeddable widgets
 
 Automation & Comms
-- Inngest (events, cron, AI inference via Gemini)
+- Inngest (events, cron) with Ollama AI for local inference
 - Nodemailer (Gmail transport)
 - next-themes, cmdk (command palette), react-hook-form
 
@@ -111,8 +111,8 @@ Language composition
 - Personalized onboarding
     - Collects country, investment goals, risk tolerance, preferred industry
 - Email & automation
-    - AI-personalized welcome email (Gemini via Inngest)
-    - Daily news summary emails (cron) personalized using user watchlists
+    - AI-personalized welcome email powered by Ollama
+    - Daily news summary emails (cron) personalized using user watchlists and AI
 - Polished UI
     - shadcn/ui components, Radix primitives, Tailwind v4 design tokens
     - Dark theme by default
@@ -283,8 +283,11 @@ FINNHUB_BASE_URL=https://finnhub.io/api/v1
 # Get your free token at https://tushare.pro
 TUSHARE_TOKEN=your_tushare_token
 
-# Inngest AI (Gemini)
-GEMINI_API_KEY=your_gemini_api_key
+# Ollama AI (local inference)
+# Make sure Ollama is running on your Windows host machine
+OLLAMA_BASE_URL=http://host.docker.internal:11434
+OLLAMA_MODEL=llama3.2
+OLLAMA_TIMEOUT=120000
 
 # Email (Nodemailer via Gmail; consider App Passwords if 2FA)
 NODEMAILER_EMAIL=youraddress@gmail.com
@@ -312,13 +315,58 @@ FINNHUB_BASE_URL=https://finnhub.io/api/v1
 # Get your free token at https://tushare.pro
 TUSHARE_TOKEN=your_tushare_token
 
-# Inngest AI (Gemini)
-GEMINI_API_KEY=your_gemini_api_key
+# Ollama AI (local inference)
+# Make sure Ollama is running on your Windows host machine
+OLLAMA_BASE_URL=http://host.docker.internal:11434
+OLLAMA_MODEL=llama3.2
+OLLAMA_TIMEOUT=120000
 
 # Email (Nodemailer via Gmail; consider App Passwords if 2FA)
 NODEMAILER_EMAIL=youraddress@gmail.com
 NODEMAILER_PASSWORD=your_gmail_app_password
 ```
+
+### Ollama Setup (Windows Host)
+
+This project now uses **Ollama** for AI-powered features instead of Gemini API. Ollama runs locally on your Windows machine, providing:
+- **Privacy**: All AI processing happens on your machine
+- **No API costs**: Free to use with your own hardware
+- **Better control**: Choose from various open-source models
+
+**Setup steps:**
+
+1. **Install Ollama on Windows**:
+   - Download from [ollama.com](https://ollama.com/download)
+   - Install and run Ollama
+
+2. **Download a model**:
+   ```bash
+   # Recommended: LLaMA 3.2 (good balance of performance and quality)
+   ollama pull llama3.2
+
+   # Alternative models:
+   ollama pull llama3.1    # Larger, more capable
+   ollama pull mistral     # Fast and efficient
+   ollama pull qwen2.5     # Good for Chinese + English
+   ```
+
+3. **Verify Ollama is running**:
+   - Open browser to `http://localhost:11434`
+   - You should see "Ollama is running"
+
+4. **Configure environment variables**:
+   ```env
+   OLLAMA_BASE_URL=http://host.docker.internal:11434
+   OLLAMA_MODEL=llama3.2
+   ```
+
+5. **Test the connection** (optional but recommended):
+   ```bash
+   npm run test:ollama
+   ```
+   This will verify that the Docker container can connect to Ollama and generate text.
+
+The Docker container will access Ollama on your Windows host via `host.docker.internal`.
 
 Notes
 - Keep private keys server-side whenever possible.

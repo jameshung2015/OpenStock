@@ -5,6 +5,7 @@ import {getAllUsersForNewsEmail} from "@/lib/actions/user.actions";
 import { getWatchlistSymbolsByEmail } from "@/lib/actions/watchlist.actions";
 import { getNews } from "@/lib/actions/finnhub.actions";
 import { getFormattedTodayDate } from "@/lib/utils";
+import { generateCompletion } from "@/lib/ollama/client";
 
 export const sendSignUpEmail = inngest.createFunction(
     { id: 'sign-up-email' },
@@ -19,25 +20,21 @@ export const sendSignUpEmail = inngest.createFunction(
 
         const prompt = PERSONALIZED_WELCOME_EMAIL_PROMPT.replace('{{userProfile}}', userProfile)
 
-        const response = await step.ai.infer('generate-welcome-intro', {
-            model: step.ai.models.gemini({ model: 'gemini-2.5-flash-lite' }),
-            body: {
-                contents: [
-                    {
-                        role: 'user',
-                        parts: [
-                            { text: prompt }
-                        ]
-                    }]
+        // Generate personalized intro using Ollama
+        const introText = await step.run('generate-welcome-intro', async () => {
+            try {
+                const response = await generateCompletion(prompt, {
+                    temperature: 0.7,
+                });
+                return response || 'Thanks for joining Openstock. You now have the tools to track markets and make smarter moves.';
+            } catch (error) {
+                console.error('Failed to generate welcome intro with Ollama:', error);
+                return 'Thanks for joining Openstock. You now have the tools to track markets and make smarter moves.';
             }
-        })
+        });
 
         await step.run('send-welcome-email', async () => {
-            const part = response.candidates?.[0]?.content?.parts?.[0];
-            const introText = (part && 'text' in part ? part.text : null) ||'Thanks for joining Openstock. You now have the tools to track markets and make smarter moves.'
-
             const { data: { email, name } } = event;
-
             return await sendWelcomeEmail({ email, name, intro: introText });
         })
 
@@ -87,15 +84,18 @@ export const sendDailyNewsSummary = inngest.createFunction(
             try {
                 const prompt = NEWS_SUMMARY_EMAIL_PROMPT.replace('{{newsData}}', JSON.stringify(articles, null, 2));
 
-                const response = await step.ai.infer(`summarize-news-${user.email}`, {
-                    model: step.ai.models.gemini({ model: 'gemini-2.5-flash-lite' }),
-                    body: {
-                        contents: [{ role: 'user', parts: [{ text:prompt }]}]
+                // Generate news summary using Ollama
+                const newsContent = await step.run(`summarize-news-${user.email}`, async () => {
+                    try {
+                        const response = await generateCompletion(prompt, {
+                            temperature: 0.7,
+                        });
+                        return response || 'No market news.';
+                    } catch (error) {
+                        console.error(`Failed to generate news summary with Ollama for ${user.email}:`, error);
+                        return 'No market news.';
                     }
                 });
-
-                const part = response.candidates?.[0]?.content?.parts?.[0];
-                const newsContent = (part && 'text' in part ? part.text : null) || 'No market news.'
 
                 userNewsSummaries.push({ user, newsContent });
             } catch (e) {
